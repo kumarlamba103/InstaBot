@@ -3,18 +3,18 @@
                                                     #INSTABOT#
 #-----------------------------------------------------------------------------------------------------------------------#
 
-import requests  # import requests library
+import requests                                              # import requests library
 import urllib                                                #imports urllib
 from pprint import pprint
 from textblob import TextBlob                                #imports textblob
 from textblob.sentiments import NaiveBayesAnalyzer           #imports textblob.sentiments
 
 #=====================================================================================================
-APP_ACCESS_TOKEN = '4870715640.a48e759.874aba351e5147eca8a9d36b9688f494'  # access token
+APP_ACCESS_TOKEN = '4870715640.a48e759.874aba351e5147eca8a9d36b9688f494'  # ACCESS TOKEN
 # APP_ACCESS_TOKEN= '4097850240.5b7c7d2.f1eb05309a9a44bf9ee156404b87c1f7'
 base_url = 'https://api.instagram.com/v1/'
 #=======================================================================================================
-#defines the function for user's self info
+#DEFINES THE FUNCTION FOR USER'S SELF INFO
 def self_info():
     req_url = requests.get("%susers/self/?access_token=%s" % (base_url, APP_ACCESS_TOKEN)).json()
     if 'data' in req_url:
@@ -25,7 +25,7 @@ def self_info():
     else:
         print "wrong information"
 #================================================================================================================
-#defines the function for user's recent post
+#DEFINES THE FUNCTION FOR USER RECENT POST
 def recent_post():
     req_url = requests.get("%susers/self/media/recent/?access_token=%s" % (base_url, APP_ACCESS_TOKEN)).json()
     if req_url['meta']['code'] == 200:  # code 200 is used to when information is access otherwise error occurs.
@@ -41,7 +41,7 @@ def recent_post():
     else:
         print "wrong information"
 #=====================================================================================================================
-#defines the function to get other or to search other user
+#DEFINES THE FUNCTION TO GET OTHER OR TO SEARCH OTHER USER
 def get_user_id(username):
     req_url = requests.get("%susers/search?q=%s&access_token=%s" % (base_url, username, APP_ACCESS_TOKEN)).json()
     if req_url['meta']['code'] == 200:
@@ -50,13 +50,13 @@ def get_user_id(username):
         else:
             return None
     else:
-        print "error"                #print's the error message
+        print "error"                #PRINT'S THE ERROR MESSAGE
 #===========================================================================================================
-#defines the function for other user's info
+#DEFINES THE FUNCTION FOR OTHER USER'S INFO
 def user_info(username):
     user_id = get_user_id(username)
     if user_id == None:
-        print "user name is incorrect"                     #user name is incorrect
+        print "user name is incorrect"                     #USER NAME IS INCORRECT
         exit()
     else:
         req_url = requests.get("%susers/%s/?access_token=%s" % (base_url, user_id, APP_ACCESS_TOKEN)).json()
@@ -68,11 +68,11 @@ def user_info(username):
         else:
             print "wrong information"
 #======================================================================================
-#defines the function for other user's recent posts
+#DEFINES THE FUNCTION FOR OTHER USER'S RECENT POSTS
 def user_recent_post(name):
     user_id = get_user_id(name)
     req_url = requests.get("%susers/%s/media/recent/?access_token=%s" % (base_url, user_id, APP_ACCESS_TOKEN)).json()
-    if req_url['meta']['code'] == 200:  # code 200 is used to when information is access otherwise error occurs.
+    if req_url['meta']['code'] == 200:  # CODE 200 IS USED TO WHEN INFORMATION IS ACCESS OTHERWISE ERROR OCCURS.
         if len(req_url['data']) > 0:
             print req_url['data'][0]['id']
             print req_url['data'][0]['videos']['standard_resolution']['url']
@@ -107,7 +107,7 @@ def like_post(username):
     else:
         print 'Your like was unsuccessful. Try again!'
 
-
+#=====================================================================================================
 def comment_post(username):
     media_id = get_media_id(username)
     comment_text = raw_input("Your comment: ")
@@ -120,7 +120,7 @@ def comment_post(username):
     else:
         print 'Your comment was unsuccessful. Try again!'
 
-
+#======================================================================================================
 def delete_neg_comment(username):
     media_id = get_media_id(username)
     request_url = (base_url + 'media/%s/comments/?access_token=%s') % (media_id, APP_ACCESS_TOKEN)
@@ -150,7 +150,7 @@ def delete_neg_comment(username):
     else:
         print 'Status code other than 200 received!'
 
-
+#==================================================================================================
 while True:
     question = input(
         "what do you want to do\n1.Get self information\n2.get recent post\n3.get user info\n4.get user recent post\n5.post a like\n6.post a comment\n7.delete negative comments\n0.exit \n")
